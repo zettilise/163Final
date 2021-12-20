@@ -76,7 +76,7 @@ class Polygon:
         self.graph.add_edge(1, self.count)
 
         nx.draw(self.graph, nx.get_node_attributes(self.graph, 'pos'), with_labels=True, node_size=0)
-        plt.show()
+        # plt.show()
 
 
 
@@ -175,19 +175,5 @@ class Edge:
         else:                   # They don't share left endpoint
             return y < other.left.y
 
-        # return self.right.y < other.right.y and self.right.x < other.right.x if y == other.left.y else y < other.left.y
-        
-    # def __copy__(self):
-    #     cls = self.__class__
-    #     result = cls.__new__(cls)
-    #     result.__dict__.update(self.__dict__)
-    #     return result
-
-    # def __deepcopy__(self, memo):
-    #     cls = self.__class__
-    #     result = cls.__new__(cls)
-    #     memo[id(self)] = result
-    #     for k, v in self.__dict__.items():
-    #         setattr(result, k, deepcopy(v, memo))
-    #     return result   
+  
         
