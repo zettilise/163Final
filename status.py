@@ -24,53 +24,20 @@ class Status:
         Given a y coord, find the nearest edge above it
         Binary search was buggy, so ended up just iterating through
         """
-        # (l, r) = (0, len(self.list) - 1)
-
-        # x, y = coord
-
-        # # loop till the search space is exhausted
-        # while l <= r:
-    
-        #     # find the mid-value in the search space and
-        #     # compares it with the target
-    
-        #     mid = (l + r) // 2
-    
-        #     # overflow can happen. Use:
-        #     # mid = left + (right - left) / 2
-        #     # mid = right - (right - left) // 2
-    
-        #     # target is found
-        #     edge_val = self.list[mid]
-        #     middle = edge_val.slope * x + edge_val.b
-
-        #     if y == middle:
-        #         return mid
-    
-        #     # discard all elements in the right search space,
-        #     # including the middle element
-        #     elif y < middle:
-        #         r = mid - 1
-    
-        #     # discard all elements in the left search space,
-        #     # including the middle element
-        #     else:
-        #         l = mid + 1
-    
-        # # `target` doesn't exist in the list
-        # return -1
+        
         x, y = coord
         index = 0
 
         for index, lower_line in enumerate(self.list[:-1]):
             y_low = lower_line.slope * x + lower_line.b 
             y_high = self.list[index + 1].slope * x + self.list[index + 1].b
-            print("testing ", lower_line, self.list[index + 1])
+            # print("testing ", lower_line, self.list[index + 1])
             if y_low <= y and y < y_high:
-                print('Returning', index + 1, self.list[index + 1])
-                return index + 1
 
-        return index
+                # print('Returning', index + 1, self.list[index + 1])
+                return self.list[index + 1]
+
+        return self.list[index]
 
 
     def find_edge(self, e):
@@ -88,10 +55,10 @@ class Status:
         if edge == e:
             return index
         else:
-            print(index, edge, e)
+            # print(index, edge, e)
             # print(index - 1, self.list[index - 1])
             if e < edge:
-                print("less")
+                # print("less")
                 while e != edge:
                     index -= 1
                     print(index)
@@ -99,7 +66,7 @@ class Status:
                     print(edge)
                  
             else: 
-                print("greater")
+                # print("greater")
                 while e != edge:
                     index += 1
                     edge = self.list[index]
