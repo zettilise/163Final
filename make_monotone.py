@@ -11,7 +11,7 @@ status = Status()
 
 
 def make_mono(v):
-    print(v.name, " is the current node")
+    # print(v.name, " is the current node")
     # ax.clear()
     if v.x < v.v_prev.x:
         if v.x < v.v_next.x:
@@ -100,7 +100,9 @@ def make_mono(v):
             edge_next = Edge(v, v.v_next)
             edge_next.helper = v
             index = status.find_edge(Edge(v, v.v_prev))
-            status.list[index] = edge_next
+            # status.list[index] = edge_next
+            del status.list[index]
+            status.list.add(edge_next)
 
         
 
@@ -151,31 +153,35 @@ def make_mono(v):
                 edge_next = status.remove_edge(edge_next)
                 edge_prev = status.remove_edge(Edge(v, v.v_prev))
 
+    vert.set_data(plotVert(v.x))
     colors = nx.get_edge_attributes(graph,'color').values()
             
     nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=1, edge_color=colors,)
     # nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=1, )
 
-
+def plotVert(x):
+        """ Plots a vertical line at the given x-coordate"""
+        x_vals = [x, x]
+        y_vals = [-100, 100]
+        return (x_vals, y_vals)
 
 num = int(input("Enter bounds: "))
 # num = 8
 
-fig, ax = plt.subplots(figsize=(6,4))
+fig = plt.figure()
 
 p = generate_polygon(-num, num)
 
 
 graph = p.graph
 stopping = get_stopping_points(p.vertices)
+# for i in stopping: print(i)
 
+vert, = plt.plot([], [], 'k-.')
 
-
-
-anim = FuncAnimation(fig, make_mono,frames=stopping,
-                    interval=100, repeat=False)
-# anim.save('./results/test.gif', fps=5)
-plt.show()
+anim = FuncAnimation(fig, make_mono,frames=stopping, init_func=lambda : ..., interval=500, repeat=False)
+anim.save('./results/sweep.gif', fps=5)
+# plt.show()
 
 
 

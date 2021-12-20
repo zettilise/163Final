@@ -163,16 +163,14 @@ class Edge:
 
     def __lt__(self, other):
         """ for sorting """
+        print("Self: ", self, " and other: ", other)
         x = other.left.x # get the x coord of the other one
         y = self.slope * x + self.b
-        # print("self is ", self, " and other is ", other)
         if y == other.left.y:   # They share left endpoint
-            # if self.right.y < other.right.y:
-            #     return True
-            # else:
-            #     return self.right.x < other.right.x
+            print("in if")
             return self.slope < other.slope
         else:                   # They don't share left endpoint
+            print("in else")
             return y < other.left.y
 
   
