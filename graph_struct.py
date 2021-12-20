@@ -44,8 +44,6 @@ class Polygon:
         self.graph.add_node(3, pos=v3.coord)
 
 
-
-
     def add_vertex(self, v):
         """ Adds to the DLL """
         v.v_prev = self.head.v_prev 
@@ -76,12 +74,8 @@ class Polygon:
 
 
 
-    # def display_graph(self):
-    #     nx.draw(self.graph, nx.get_node_attributes(self.graph, 'pos'), with_labels=True, node_size=0)
-    #     plt.show()
-
     def __str__(self):
-        return [str(i) for i in self.vertices]
+        return ', '.join([str(i) for i in self.vertices])
 
 
  
@@ -102,8 +96,8 @@ class Vertex:
         self.v_next = None          # vertex coming in from ccw direction
         self.v_prev = None          # vertex exiting from ccw direction
 
-        # This is for the DCEL
-        self.edges = []
+        # This is for the graph
+        # self.edges = []
 
 
     def __str__(self):
@@ -113,18 +107,34 @@ class Vertex:
         """ self comparison of vertex objects """
         return self.x == other.x and self.y == other.y
 
+    def __lt__(self, other):
+        """ for sorting """
+
+        return self.x < other.x
+
         
 
 class Edge:
 
-    def __init__(self, left, right):
+    def __init__(self, v1, v2):
         """
         Defines an edge
         We assume general position, so don't need to worry about horizontal lines.
         Setting it up to use it in DCEL
         """
+
+        if v1.x < v2.x:
+            left = v1
+            right = v2 
+        else:
+            left = v2
+            right = v1
+
         self.left = left
         self.right = right
+        self.helper = None
+
+        # self.key = left.y       # this is for keying the status
 
         # requires python 3
         self.slope = (left.y - right.y) / (left.x - right.x)
@@ -133,4 +143,19 @@ class Edge:
         self.b = left.y - (self.slope * left.x)
 
 
+    def __str__(self):
+        return "(%f, %f) to (%f, %f)" % (self.left.x, self.left.y, self.right.x, self.right.y)
 
+    def __eq__(self, other):
+        """ self comparison of vertex objects """
+        return self.left == other.left and self.right == other.right
+
+    def __lt__(self, other):
+        """ for sorting """
+        x = other.left.x # get the x coord of the other one
+        y = self.slope * x + self.b
+
+        return self.right.y < other.right.y if y == other.left.y else y < other.left.y
+        
+       
+        

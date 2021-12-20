@@ -1,7 +1,7 @@
 from graph_struct import *
 
 
-# Want to sort stopping points into an array
+# Sorts list of vertices by their x coordinates
 
-def get_sp(poly):
-    x=1
+def get_stopping_points(vertices):
+    return vertices.sort()
