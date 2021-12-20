@@ -10,11 +10,12 @@ working with big graphs, so runtime is passable.
 from bisect import bisect_left, insort_left
 
 from graph_struct import Edge
+from sortedcontainers import SortedList
 
 class Status:
 
     def __init__(self):
-        self.list = []
+        self.list = SortedList()
 
 
 
@@ -72,9 +73,10 @@ class Status:
         #             edge = self.list[index]
         #             # print(edge)
 
-        for index, edge in enumerate(self.list):
-            if edge == e:
-                return index
+        # for index, edge in enumerate(self.list):
+        #     if edge == e:
+        #         return index
+        index = self.list.index(e)
 
         return index
 
@@ -86,11 +88,12 @@ class Status:
         # print(type(e))
         # print("edges type in status insert" + e.helper)
 
-        if self.list is []:
-            self.list.append(e)
-        else: 
+        # if self.list is []:
+        #     self.list.append(e)
+        # else: 
 
-            insort_left(self.list, e, lo=0, hi=len(self.list))
+        #     insort_left(self.list, e, lo=0, hi=len(self.list))
+        self.list.add(e)
     
     def remove_edge(self, e):
         """
@@ -99,11 +102,13 @@ class Status:
 
         Returns the edge so we can get good data
         """
+        print("Trying to remove ", e)
+        for i in self.list: print(i)
         index = self.find_edge(e)
-        edge = self.list[index]
+        # edge = self.list[index]
         
-        self.list.pop(index)
-
+        edge = self.list.pop(index)
+        # self.list.remove(e)
         # print("edges type in status" + edge.helper.type)
         return edge
 
