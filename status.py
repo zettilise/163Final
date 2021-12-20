@@ -46,31 +46,35 @@ class Status:
         it — basically binary search
         """
         
-        index = bisect_left(self.list, e)
-        if index >= len(self.list):
-            index = len(self.list) - 1
+        # index = bisect_left(self.list, e)
+        # if index >= len(self.list):
+        #     index = len(self.list) - 1
 
-        edge = self.list[index]
+        # edge = self.list[index]
 
-        if edge == e:
-            return index
-        else:
-            # print(index, edge, e)
-            # print(index - 1, self.list[index - 1])
-            if e < edge:
-                # print("less")
-                while e != edge:
-                    index -= 1
-                    print(index)
-                    edge = self.list[index]
-                    print(edge)
+        # if edge == e:
+        #     return index
+        # else:
+        #     # print(index, edge, e)
+        #     # print(index - 1, self.list[index - 1])
+        #     if e < edge:
+        #         # print("less")
+        #         while e != edge:
+        #             index -= 1
+        #             print(index)
+        #             edge = self.list[index]
+        #             print(edge)
                  
-            else: 
-                # print("greater")
-                while e != edge:
-                    index += 1
-                    edge = self.list[index]
-                    # print(edge)
+        #     else: 
+        #         # print("greater")
+        #         while e != edge:
+        #             index += 1
+        #             edge = self.list[index]
+        #             # print(edge)
+
+        for index, edge in enumerate(self.list):
+            if edge == e:
+                return index
 
         return index
 

@@ -7,12 +7,12 @@ from generate_polygon import *
 from matplotlib.animation import FuncAnimation
 
 
-
+status = Status()
 
 
 def make_mono(v):
     print(v.name, " is the current node")
-    ax.clear()
+    # ax.clear()
     if v.x < v.v_prev.x:
         if v.x < v.v_next.x:
             # print("Test print ", v.v_next.y, v.v_prev.y)
@@ -151,15 +151,15 @@ def make_mono(v):
                 edge_next = status.remove_edge(edge_next)
                 edge_prev = status.remove_edge(Edge(v, v.v_prev))
 
-    # colors = nx.get_edge_attributes(graph,'color').values()
+    colors = nx.get_edge_attributes(graph,'color').values()
             
-    # nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=1, edge_color=colors,)
-    nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=1, )
+    nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=1, edge_color=colors,)
+    # nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=1, )
 
 
 
-# num = int(input("Enter bounds: "))
-num = 8
+num = int(input("Enter bounds: "))
+# num = 8
 
 fig, ax = plt.subplots(figsize=(6,4))
 
@@ -168,12 +168,13 @@ p = generate_polygon(-num, num)
 
 graph = p.graph
 stopping = get_stopping_points(p.vertices)
-status = Status()
+
 
 
 
 anim = FuncAnimation(fig, make_mono,frames=stopping,
                     interval=100, repeat=False)
+# anim.save('./results/test.gif', fps=5)
 plt.show()
 
 
