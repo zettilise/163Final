@@ -50,7 +50,7 @@ def make_mono(poly):
                     # print(index)
                     # print(edge)
                     # print("names of edges we connect ", v.name, edge.helper.name)
-                    graph.add_edge(v.name, edge.helper.name)
+                    graph.add_edge(v.name, edge.helper.name, color='r')
 
                     index = status.find_edge(edge)
                     # put 3 edges into status
@@ -77,7 +77,7 @@ def make_mono(poly):
                 # print("edge removed in upper, ", edge_next)
 
                 if edge_next.helper is not None and edge_next.helper.type == "merge":
-                    graph.add_edge(v.name, edge_next.helper.name )
+                    graph.add_edge(v.name, edge_next.helper.name, color='r')
 
                 # V becomes helper of new edge (prev)
                 edge_new = Edge(v, v.v_prev)
@@ -99,7 +99,7 @@ def make_mono(poly):
                 if edge.helper is not None and edge.helper.type == "merge":
                 # if edge.helper is not None:
                     # print("Need to fix in lower")
-                    graph.add_edge(v.name, edge.helper.name )
+                    graph.add_edge(v.name, edge.helper.name, color='r')
 
                 # Trying a thing to redirect helper
                 index = status.find_edge(edge)
@@ -124,7 +124,7 @@ def make_mono(poly):
                     index = status.find_edge(Edge(v, v.v_next))
                     edge_next = status.list[index]
                     if edge_next.helper is not None and edge_next.helper.type == "merge":
-                        graph.add_edge(v.name, edge_next.helper.name )
+                        graph.add_edge(v.name, edge_next.helper.name, color='r')
 
 
                     # delete edges
@@ -135,7 +135,7 @@ def make_mono(poly):
                     edge = status.find_nearest_edge_above(v.coord)
                     # print("helper found for merge is ", edge.helper)
                     if edge.helper is not None and edge.helper.type == "merge":
-                        graph.add_edge(v.name, edge.helper.name )
+                        graph.add_edge(v.name, edge.helper.name, color='r')
                     # attempting to redirect edge above to merge now
                     index = status.find_edge(edge)
                     status.list[index].helper = v
@@ -154,7 +154,7 @@ def make_mono(poly):
                     edge_next = status.list[index]
 
                     if edge_next.helper is not None and edge_next.helper.type == "merge":
-                        graph.add_edge(v.name, edge_next.helper.name )
+                        graph.add_edge(v.name, edge_next.helper.name, color='r')
 
                     # delete upper and lower
                     edge_next = status.remove_edge(edge_next)

@@ -70,12 +70,12 @@ class Polygon:
         """
 
         for i in range(1, self.count):
-            self.graph.add_edge(i, i + 1)
+            self.graph.add_edge(i, i + 1, color='b')
 
         
-        self.graph.add_edge(1, self.count)
+        self.graph.add_edge(1, self.count, color='b')
 
-        nx.draw(self.graph, nx.get_node_attributes(self.graph, 'pos'), with_labels=True, node_size=0)
+        nx.draw(self.graph, nx.get_node_attributes(self.graph, 'pos'), with_labels=True, node_size=1)
         # plt.show()
 
 

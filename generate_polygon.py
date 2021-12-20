@@ -34,7 +34,7 @@ def generate_vertices(min, max):
     Parameters create bounding region to do so. 
     """
 
-    random.seed(1)
+    random.seed(2)
 
 
     x = list(range(min, max))

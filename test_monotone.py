@@ -8,9 +8,9 @@ if __name__=='__main__':
 
     p = generate_polygon(-num, num)
 
-    plt.figure(1)
     graph = make_mono(p)
+    colors = nx.get_edge_attributes(graph,'color').values()
 
-    plt.figure(2)
-    nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=0)
+    plt.figure(1)
+    nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=1, edge_color=colors,)
     plt.show()
