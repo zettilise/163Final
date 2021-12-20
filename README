@@ -1,0 +1,34 @@
+Course: CS 163, Computational Geometry
+Semester: Fall 2021
+Assignment: Final Project
+
+Zetty Cho (echo02)
+
+-------------------------------------------------------------------------------
+
+Submitted Files:
+- graph_struct.py     : contains classes defining a Vertex, Edge, and Polygon 
+- status.py           : contains Status class for our status DS 
+- stopping_points.py  : contains method to sort vertices by x-coordinate
+- make_monotone.py    : contains implementation for monotone algo
+- generate_polygon.py : contains methods to generate random simple polygon
+- test_monotone.py    : file runs the program
+- README              : this file
+
+Code may be run with the following command:
+    python3 test_monoton.py
+
+When prompted, type in an integer value greater than 3 and hit return. 
+
+-------------------------------------------------------------------------------
+
+Project Description:
+
+    (Assume general position.)
+
+    Given a simple polygon, this program will 
+
+
+Learning:
+
+    I initially referred to 
