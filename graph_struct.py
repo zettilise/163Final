@@ -12,6 +12,7 @@ Extreme spaghetti code ahead
 # used for plotting graph
 import networkx as nx
 import matplotlib.pyplot as plt
+from copy import copy, deepcopy
 
 class Polygon:
     # This won't be able to remove vertices bc that's too much work
@@ -23,7 +24,7 @@ class Polygon:
         """
 
         # start of DLL of linked list of vertices
-        
+        # Honestly, I think this LL is useless rn... but for memory's sake...
         v1.v_next = v2
         v1.v_prev = v3
 
@@ -51,6 +52,10 @@ class Polygon:
 
         v.v_next = self.head 
         self.head.v_prev = v 
+
+        # Reset the vertex list
+        self.vertices[0] = self.head 
+        self.vertices[self.count - 1] = v.v_prev
         self.vertices.append(v)
         self.count += 1
 
@@ -66,6 +71,7 @@ class Polygon:
 
         for i in range(1, self.count):
             self.graph.add_edge(i, i + 1)
+
         
         self.graph.add_edge(1, self.count)
 
@@ -82,7 +88,7 @@ class Polygon:
 
 class Vertex:
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, label):
         """
         Defines vertex by x and y coordinate. 
         In this program each vertex will only have two edges.
@@ -96,8 +102,13 @@ class Vertex:
         self.v_next = None          # vertex coming in from ccw direction
         self.v_prev = None          # vertex exiting from ccw direction
 
-        # This is for the graph
-        # self.edges = []
+        self.name = label
+        
+        # This is for when we define vertices in make monotone
+        # This could be made nicer, but this is spaghetti code... so no
+        # self.e_next = None
+        # self.e_prev = None
+        self.type = None
 
 
     def __str__(self):
@@ -134,8 +145,6 @@ class Edge:
         self.right = right
         self.helper = None
 
-        # self.key = left.y       # this is for keying the status
-
         # requires python 3
         self.slope = (left.y - right.y) / (left.x - right.x)
 
@@ -144,7 +153,9 @@ class Edge:
 
 
     def __str__(self):
-        return "(%f, %f) to (%f, %f)" % (self.left.x, self.left.y, self.right.x, self.right.y)
+        # return "(%f, %f) to (%f, %f)" % (self.left.x, self.left.y, self.right.x, self.right.y)
+        # return "(" + str(self.left) + ", " + str(self.right) + ")"
+        return "(" + str(self.left.name) + ", " + str(self.right.name) + ")"
 
     def __eq__(self, other):
         """ self comparison of vertex objects """
@@ -154,8 +165,29 @@ class Edge:
         """ for sorting """
         x = other.left.x # get the x coord of the other one
         y = self.slope * x + self.b
+        # print("self is ", self, " and other is ", other)
+        if y == other.left.y:   # They share left endpoint
+            # if self.right.y < other.right.y:
+            #     return True
+            # else:
+            #     return self.right.x < other.right.x
+            return self.slope < other.slope
+        else:                   # They don't share left endpoint
+            return y < other.left.y
 
-        return self.right.y < other.right.y if y == other.left.y else y < other.left.y
+        # return self.right.y < other.right.y and self.right.x < other.right.x if y == other.left.y else y < other.left.y
         
-       
+    # def __copy__(self):
+    #     cls = self.__class__
+    #     result = cls.__new__(cls)
+    #     result.__dict__.update(self.__dict__)
+    #     return result
+
+    # def __deepcopy__(self, memo):
+    #     cls = self.__class__
+    #     result = cls.__new__(cls)
+    #     memo[id(self)] = result
+    #     for k, v in self.__dict__.items():
+    #         setattr(result, k, deepcopy(v, memo))
+    #     return result   
         
