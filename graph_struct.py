@@ -103,11 +103,6 @@ class Vertex:
         self.v_prev = None          # vertex exiting from ccw direction
 
         self.name = label
-        
-        # This is for when we define vertices in make monotone
-        # This could be made nicer, but this is spaghetti code... so no
-        # self.e_next = None
-        # self.e_prev = None
         self.type = None
 
 
@@ -153,8 +148,6 @@ class Edge:
 
 
     def __str__(self):
-        # return "(%f, %f) to (%f, %f)" % (self.left.x, self.left.y, self.right.x, self.right.y)
-        # return "(" + str(self.left) + ", " + str(self.right) + ")"
         return "(" + str(self.left.name) + ", " + str(self.right.name) + ")"
 
     def __eq__(self, other):
@@ -165,12 +158,7 @@ class Edge:
         """ for sorting """
         x = other.left.x # get the x coord of the other one
         y = self.slope * x + self.b
-        # print("self is ", self, " and other is ", other)
         if y == other.left.y:   # They share left endpoint
-            # if self.right.y < other.right.y:
-            #     return True
-            # else:
-            #     return self.right.x < other.right.x
             return self.slope < other.slope
         else:                   # They don't share left endpoint
             return y < other.left.y

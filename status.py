@@ -1,6 +1,5 @@
 """
-Basically a BBST, which is such a pain to code, so I just made it a list
-and used binary search. 
+Should be a BBST, which is such a pain to code, so I just made it a list. 
 
 Python lists are nice to work with for removing elements, and I'm not
 working with big graphs, so runtime is passable. 
@@ -17,8 +16,6 @@ class Status:
         self.list = []
 
 
-
-    # binary search algo for this method was taken from https://www.techiedelight.com/binary-search/
     def find_nearest_edge_above(self, coord):
         """
         Given a y coord, find the nearest edge above it
@@ -43,34 +40,9 @@ class Status:
     def find_edge(self, e):
         """ 
         Given an edge , find the corresponding position in the list for
-        it — basically binary search
+        it 
         """
         
-        # index = bisect_left(self.list, e)
-        # if index >= len(self.list):
-        #     index = len(self.list) - 1
-
-        # edge = self.list[index]
-
-        # if edge == e:
-        #     return index
-        # else:
-        #     # print(index, edge, e)
-        #     # print(index - 1, self.list[index - 1])
-        #     if e < edge:
-        #         # print("less")
-        #         while e != edge:
-        #             index -= 1
-        #             print(index)
-        #             edge = self.list[index]
-        #             print(edge)
-                 
-        #     else: 
-        #         # print("greater")
-        #         while e != edge:
-        #             index += 1
-        #             edge = self.list[index]
-        #             # print(edge)
 
         for index, edge in enumerate(self.list):
             if edge == e:

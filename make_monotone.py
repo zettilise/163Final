@@ -139,36 +139,39 @@ def make_mono(v):
                 edge_prev = status.remove_edge(Edge(v, v.v_prev))
 
 
+    # This is what plots the line and edges at a given moment. 
     vert.set_data(plotVert(v.x))
     colors = nx.get_edge_attributes(graph,'color').values()
-            
     nx.draw(graph, nx.get_node_attributes(graph, 'pos'), with_labels=True, node_size=1, edge_color=colors,)
 
+
+# Borrowed from online.... can't recall the source :(
 def plotVert(x):
-        """ Plots a vertical line at the given x-coordate"""
+        """ Plots a vertical line at the given x-coordinate"""
         x_vals = [x, x]
         y_vals = [-100, 100]
         return (x_vals, y_vals)
 
 
 
-# Code for running the program in general
+""" Code for running the project in General. """
+
+# Gets the bounding box limits. 
 num = int(input("Enter bounds: "))
 
+
 fig = plt.figure()
-
 p = generate_polygon(-num, num)
-
-
 graph = p.graph
-stopping = get_stopping_points(p.vertices)
-
 vert, = plt.plot([], [], 'k-.')
 
+stopping = get_stopping_points(p.vertices)
 
+# This is what iterates through the stopping points data structure. 
+# This is also what allows us to have animations. 
 anim = FuncAnimation(fig, make_mono,frames=stopping, init_func=lambda : ..., interval=500, repeat=False)
 
-
+# Can toggle between these two, probably not on the hw server tho. 
 anim.save('sweep.gif', fps=5)
 # plt.show()
 

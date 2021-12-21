@@ -7,28 +7,137 @@ Zetty Cho (echo02)
 -------------------------------------------------------------------------------
 
 Submitted Files:
+- generate_polygon.py : contains methods to generate random simple polygon
 - graph_struct.py     : contains classes defining a Vertex, Edge, and Polygon 
 - status.py           : contains Status class for our status DS 
 - stopping_points.py  : contains method to sort vertices by x-coordinate
 - make_monotone.py    : contains implementation for monotone algo
-- generate_polygon.py : contains methods to generate random simple polygon
-- test_monotone.py    : file runs the program
+                        and runs program
 - README              : this file
 
 Code may be run with the following command:
-    python3 test_monoton.py
+    python3 make_monotone.py
 
 When prompted, type in an integer value greater than 3 and hit return. 
 
+The animation will save in the same directory under the name "sweep.gif"
+
 -------------------------------------------------------------------------------
 
-Project Description:
+Project & Code Description:
 
     (Assume general position.)
 
-    Given a simple polygon, this program will 
+    Given a simple polygon, this program will do a line sweep to determine 
+    which vertices need to be connected by a diagonal to separate the 
+    initial polygon into monotone sub-divisons. 
 
+    Polygons are represented using the NetWorkX python package for graphs, as 
+    well as in a doubly-linked list. 
 
-Learning:
+    The general goal was to properly observe the necessary cases to be 
+    considered when monotizing a simple polygon, how these cases could be 
+    translated into actual code and implemented, and provide a visualization 
+    of the process. 
 
-    I initially referred to 
+    (generate_polygon.py)
+    Given a square bounding box, the program generates points within those 
+    constraints that obey general position. It then sorts those points in 
+    counterclockwise order to specify a simple polygon. These points are then
+    used to generate a graph of vertices that represent the polygon. 
+
+    Calling just `generate_polygon(min, max)`, where `min` and `max` represent 
+    the bounds of our points (which don't have to form a square) would be 
+    sufficient to get the data. 
+
+    (graph_struct.py)
+    Defines Vertices, Edges, and Polygons (and their graphs) for later use in 
+    the make_monotone methods. 
+
+    Since a vertex in a simple polygon will only have two edges, one entering 
+    from the CCW direction and one exiting, the Vertex class has pointers to 
+    the vertices on the other ends of these edges. This is useful for later 
+    determining what type of vertex we're dealing with for make_monotone. 
+
+    Edges record the vertices for their left and right endpoints, the 
+    corresponding "helper" nodes, and the slope and intercept of the segment.
+
+    (status.py)
+    Defines the Status DS. In the actual algorithm discussed in class, this is
+    formed using a BBST, however, I implemented this using a list. More 
+    discussion on this further below. 
+
+    (stopping_points.py)
+    Sorts vertices by their x-coordinate to make running the algorithm easier
+    (and truly make it a sweepline).
+
+    (make_monotone.py)
+    For each of the vertices in the stopping points DS, the method in this file
+    identifies what type of vertex it is (following definitions from David 
+    Mount's Computational Geometry notes). The following updates to the graph 
+    depend on these identifications of vertices. 
+
+    Also animates the process. :)
+
+-------------------------------------------------------------------------------
+
+Learning & Other:
+
+    One thing to note is that this project may have been easier and better 
+    formatted had I used something like C++ rather than Python. While the 
+    primary purpose of this assignment was definitely not to build more 
+    familiarity with the coding language, I did find that it was very helpful 
+    in teaching me how to NOT structure code in Python. I also was able to 
+    build familiarity with the animation capabilities of matplotlib. 
+
+    As previously stated, this algorithm is usually considered by using a 
+    BBST for the Status DS. However, I simply used a list, which, as I've been
+    told, significantly reduces the difficulty of the problem. However, the 
+    purpose of this project (as mentioned in the previous section) was more 
+    focused on the general form/requirements of making a simple polygon 
+    monotone. While data structures are important for storing the graphs and 
+    related information, I was more interested in studying how the cases may
+    fall into place once we already had the data structures available for our 
+    general use. 
+
+    Although I just said that, a good portion of my time was spent considering 
+    how to define the vertices and edges in the polygons, based on what would 
+    potentially be necessary to run make_monotone effectively. I used the 
+    lecture notes as suggestions for how to begin to structure my data (e.g. 
+    using DLLs for the polygons). 
+
+    For the actual cases in make monotone, I referred to a combination of 
+    David Mount's lecture notes and the ones provided to us by Diane. Both of 
+    them had similar approaches in considering linking up the "split" and 
+    "merge" vertices in the polygon. I spent a lot of time mapping out how 
+    these vertices may reference the necessary information and how they would 
+    actually return the correct polygons. 
+
+    However, during the process, I discovered that the cases outlined in both 
+    sets of notes weren't completely translatable into code. For example, David 
+    Mount's notes specified that we could only connect a vertex v to a helper 
+    vertex IF the helper vertex was a merge vertex. There would be 
+    times when this was necessary, but the edge above v didn't point to the 
+    correct vertex! Because of the restrictions on the other types of vertices, 
+    some edges would never be updated, resulting in some diagonals not being 
+    drawn, which would give sub divisions of non-monotone polygons. 
+
+    To remedy this, I went through and tracked each edge to make sure that it 
+    would be pointing to the rightmost visible vertices (the new helper 
+    vertices). Once this process was completed, the polygons started to 
+    become monotone. 
+
+    I learned how to make my code more iterative, especially so I could adjust 
+    it to run animations. What I have yet to learn is how to do the opposite — 
+    de-iterate it, so I can just have my code return the final expected figures. 
+
+    All this is saying is that you will have the animations outputted at the 
+    end of the algo, so you may need to download the .gif files from the hw 
+    servers to verify that they do as promised. This also means that the algo 
+    may run a little on the slower side, since it has to deal with these 
+    outputs. 
+
+    If you are Andrew Gonczi, please do not run this with 1000 as an input. 
+    Not only does that give more than 1000 points (because it defines the 
+    bounding box), but it would probably make your computer explode. 
+    (I don't recommend this to anyone tbh.)
